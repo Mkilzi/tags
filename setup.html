@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Set Up Your Tag</title>
+<style>
+  :root {
+    --ink: #141414;
+    --paper: #F6F1E7;
+    --card: #FFFDF8;
+    --orange: #F26B1D;
+    --orange-soft: #FDE6D7;
+    --muted: #6B665E;
+    --line: #E3DCCF;
+    --red: #C8321E;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { text-align: center; margin-bottom: 20px; }
+  .brand { font-size: 12px; letter-spacing: .18em; font-weight: 700; color: var(--muted); }
+  .brand b { color: var(--orange); }
+  h1 { font-size: 26px; margin: 8px 0 6px; }
+  .sub { color: var(--muted); margin: 0; }
+  .privacy {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--ink); color: var(--paper);
+    border-radius: 14px; padding: 14px 16px; margin: 18px 0; font-size: 14px;
+  }
+  .privacy svg { flex: none; margin-top: 2px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; margin-bottom: 14px; }
+  .card h2 { font-size: 15px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .card h2 .opt { color: var(--muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  label { display: block; font-weight: 600; font-size: 14px; margin: 12px 0 5px; }
+  label:first-of-type { margin-top: 0; }
+  .hint { font-weight: 400; color: var(--muted); }
+  input, textarea {
+    width: 100%; font: inherit; color: var(--ink);
+    background: #fff; border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 11px 12px; outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--orange); }
+  textarea { resize: vertical; min-height: 70px; }
+  .row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; }
+  .count { text-align: right; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .meter { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 10px 0 6px; }
+  .meter span { display: block; height: 100%; width: 0; background: var(--orange); transition: width .2s; }
+  .meter.over span { background: var(--red); }
+  .meterlabel { font-size: 13px; color: var(--muted); }
+  .meterlabel.over { color: var(--red); font-weight: 600; }
+  .btn {
+    display: block; width: 100%; text-align: center; text-decoration: none;
+    font-family: inherit; font-weight: 700; font-size: 17px; line-height: 1;
+    border: none; border-radius: 12px; padding: 16px; margin-top: 10px; cursor: pointer;
+    background: var(--orange); color: #fff;
+  }
+  .btn.dark { background: var(--ink); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .err { color: var(--red); font-size: 14px; margin-top: 8px; min-height: 1em; }
+  #result { display: none; }
+  .linkbox {
+    font: 12px/1.4 ui-monospace, Menlo, monospace; word-break: break-all;
+    background: #fff; border: 1px dashed var(--line); border-radius: 10px; padding: 10px; color: var(--muted);
+  }
+  ol { padding-left: 20px; margin: 8px 0 0; }
+  ol li { margin-bottom: 8px; }
+  .tag { display: inline-block; background: var(--orange-soft); color: var(--ink); border-radius: 6px; padding: 1px 7px; font-weight: 600; font-size: 14px; }
+  .note { font-size: 14px; color: var(--muted); }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; background: var(--line); border-radius: 12px; padding: 4px; margin-bottom: 14px; }
+  .seg button { font: inherit; font-weight: 700; border: none; background: transparent; color: var(--muted); padding: 10px; border-radius: 9px; cursor: pointer; }
+  .seg button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">MIND OF <b>MILZI</b></div>
+    <h1>Set up your tag</h1>
+    <p class="sub">Takes about 2 minutes. Update it anytime.</p>
+  </header>
+
+  <div class="privacy">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F26B1D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <div><b>Your info never leaves your phone.</b> Nothing you type here is sent to us or saved anywhere. It gets stored only on your tag.</div>
+  </div>
+
+  <form id="f" autocomplete="off" novalidate>
+    <div class="seg" role="radiogroup">
+      <button type="button" class="on" data-kind="1">Child</button>
+      <button type="button" data-kind="2">Pet</button>
+    </div>
+    <div class="card">
+      <h2 id="abouttitle">About your child</h2>
+      <label for="name" id="namelabel">First name <span class="hint">(first name only is safest)</span></label>
+      <input id="name" maxlength="20" placeholder="Jake">
+    </div>
+
+    <div class="card">
+      <h2>Main contact</h2>
+      <div class="row">
+        <div>
+          <label for="l1">Who</label>
+          <input id="l1" maxlength="12" placeholder="Mom">
+        </div>
+        <div>
+          <label for="p1">Phone</label>
+          <input id="p1" type="tel" inputmode="tel" maxlength="20" placeholder="(555) 123-4567">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Second contact <span class="opt">(optional)</span></h2>
+      <div class="row">
+        <div>
+          <label for="l2">Who</label>
+          <input id="l2" maxlength="12" placeholder="Dad">
+        </div>
+        <div>
+          <label for="p2">Phone</label>
+          <input id="p2" type="tel" inputmode="tel" maxlength="20" placeholder="(555) 987-6543">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span id="medtitle">Allergies / medical</span> <span class="opt">(optional)</span></h2>
+      <label for="med" id="medlabel">Anything a stranger or responder should know right away</label>
+      <textarea id="med" maxlength="160" placeholder="Peanut allergy, EpiPen in front pocket of backpack"></textarea>
+      <div class="count"><span id="medc">0</span>/160</div>
+    </div>
+
+    <div class="card">
+      <h2><span id="helptitle">How to help me</span> <span class="opt">(optional)</span></h2>
+      <label for="help" id="helplabel">How to talk to them or keep them calm</label>
+      <textarea id="help" maxlength="160" placeholder="Nonverbal, may not answer to name. Speaks Spanish. Calms down with a quiet voice."></textarea>
+      <div class="count"><span id="helpc">0</span>/160</div>
+    </div>
+
+    <div class="card">
+      <h2>Tag space</h2>
+      <div class="meter" id="meter"><span></span></div>
+      <div class="meterlabel" id="meterlabel">0% of your tag used</div>
+      <div class="err" id="err"></div>
+      <button class="btn" id="make" type="submit">Create my tag link</button>
+    </div>
+  </form>
+
+  <div id="result">
+    <div class="card">
+      <h2>Your tag link is ready</h2>
+      <div class="linkbox" id="link"></div>
+      <a class="btn ghost" id="test" target="_blank" rel="noopener">Preview what people will see</a>
+      <button class="btn" id="nfcwrite" type="button" style="display:none">Write to tag now</button>
+      <button class="btn dark" id="copy" type="button">Copy link</button>
+    </div>
+
+    <div class="card" id="steps">
+      <h2>Write it to your tag</h2>
+      <p class="note" id="androidnote" style="display:none;margin-top:0">On Android with Chrome you can use the <b>Write to tag now</b> button above and skip these steps.</p>
+      <ol>
+        <li>Download the free app <span class="tag">NFC Tools</span> (App Store or Google Play).</li>
+        <li>Open it and tap <b>Write</b>, then <b>Add a record</b>, then <b>URL / URI</b>.</li>
+        <li>Paste your link and tap <b>OK</b>.</li>
+        <li>Tap <b>Write</b> and hold the top of your phone to the tag until it says done.</li>
+        <li>Tap the tag with your phone to test it.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>Protect your tag</h2>
+      <p class="note" style="margin-top:0">So nobody else can change it: in NFC Tools go to <b>Other</b>, then <b>Set password</b>, pick a password, and tap the tag. Keep the password somewhere safe. You'll need it to update the tag later.</p>
+      <p class="note">To change info later, come back to this page, make a new link, remove the password, and write again.</p>
+    </div>
+  </div>
+
+  <footer>MIND OF MILZI · This page stores nothing.</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== Settings =====
+   DISPLAY_URL: the page a tag opens. Leave empty to use t.html next to this file.
+   Shorter is better (more room for info), e.g. "https://mindofmilzi.com/t" */
+const DISPLAY_URL = "https://tag.mindofmilzi.com/t";
+const MAX_BYTES = 480; // NTAG215 holds ~504 bytes; leave some margin
+
+const $ = id => document.getElementById(id);
+const base = (DISPLAY_URL || new URL("t.html", location.href).href).split("#")[0];
+
+function enc(s) {
+  return encodeURIComponent((s || "").trim())
+    .replace(/~/g, "%7E")
+    .replace(/%20/g, "+");
+}
+function phone(s) { return (s || "").replace(/[^\d+]/g, ""); }
+
+let kind = "1";
+const COPY = {
+  "1": { about: "About your child", name: 'First name <span class="hint">(first name only is safest)</span>', namePh: "Jake",
+         med: "Allergies / medical", medL: "Anything a stranger or responder should know right away", medPh: "Peanut allergy, EpiPen in front pocket of backpack",
+         help: "How to help me", helpL: "How to talk to them or keep them calm", helpPh: "Nonverbal, may not answer to name. Speaks Spanish. Calms down with a quiet voice.",
+         nameErr: "Add your child's first name." },
+  "2": { about: "About your pet", name: "Pet's name", namePh: "Luna",
+         med: "Medical needs", medL: "Medications or conditions a finder should know", medPh: "Needs thyroid meds twice a day. Deaf in one ear.",
+         help: "About me", helpL: "How to approach them, anything helpful", helpPh: "Friendly but shy. Comes to treats. Don't chase, she'll run.",
+         nameErr: "Add your pet's name." },
+};
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  kind = b.dataset.kind;
+  document.querySelectorAll(".seg button").forEach(x => x.classList.toggle("on", x === b));
+  const c = COPY[kind];
+  $("abouttitle").textContent = c.about; $("namelabel").innerHTML = c.name; $("name").placeholder = c.namePh;
+  $("medtitle").textContent = c.med; $("medlabel").textContent = c.medL; $("med").placeholder = c.medPh;
+  $("helptitle").textContent = c.help; $("helplabel").textContent = c.helpL; $("help").placeholder = c.helpPh;
+  update();
+}));
+
+function buildLink() {
+  const fields = [
+    kind,
+    enc($("name").value),
+    enc($("l1").value),
+    phone($("p1").value),
+    enc($("l2").value),
+    phone($("p2").value),
+    enc($("med").value),
+    enc($("help").value)
+  ];
+  while (fields.length > 4 && fields[fields.length - 1] === "") fields.pop();
+  return base + "#" + fields.join("~");
+}
+
+// Estimate bytes used on the tag (NDEF URI record + TLV overhead)
+function tagBytes(url) {
+  const body = url.replace(/^https?:\/\/(www\.)?/, "");
+  return new TextEncoder().encode(body).length + 1 + 7 + 5;
+}
+
+function update() {
+  $("medc").textContent = $("med").value.length;
+  $("helpc").textContent = $("help").value.length;
+  const used = tagBytes(buildLink());
+  const pct = Math.min(100, Math.round(used / MAX_BYTES * 100));
+  const over = used > MAX_BYTES;
+  $("meter").classList.toggle("over", over);
+  $("meter").firstElementChild.style.width = pct + "%";
+  const ml = $("meterlabel");
+  ml.classList.toggle("over", over);
+  ml.textContent = over
+    ? "Too long for your tag. Shorten the notes a bit."
+    : pct + "% of your tag used";
+  $("make").disabled = over;
+  $("result").style.display = "none";
+}
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+document.querySelectorAll("input, textarea").forEach(el => el.addEventListener("input", update));
+
+$("f").addEventListener("submit", e => {
+  e.preventDefault();
+  const err = $("err");
+  err.textContent = "";
+  if (!$("name").value.trim()) { err.textContent = COPY[kind].nameErr; $("name").focus(); return; }
+  const p1 = phone($("p1").value);
+  if (p1.replace(/\D/g, "").length < 7) { err.textContent = "Add a valid main contact phone number."; $("p1").focus(); return; }
+  const p2 = phone($("p2").value);
+  if (p2 && p2.replace(/\D/g, "").length < 7) { err.textContent = "Second contact phone looks incomplete."; $("p2").focus(); return; }
+
+  const link = buildLink();
+  $("link").textContent = link;
+  $("test").href = link;
+  $("result").style.display = "block";
+  $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+$("copy").addEventListener("click", async () => {
+  const link = $("link").textContent;
+  try {
+    await navigator.clipboard.writeText(link);
+    toast("Link copied");
+  } catch (e) {
+    const r = document.createRange();
+    r.selectNodeContents($("link"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    toast("Press and hold to copy");
+  }
+});
+
+// Android Chrome can write tags directly, no app needed
+if ("NDEFReader" in window) {
+  $("nfcwrite").style.display = "block";
+  $("androidnote").style.display = "block";
+  $("nfcwrite").addEventListener("click", async () => {
+    try {
+      toast("Hold your phone to the tag");
+      const w = new NDEFReader();
+      await w.write({ records: [{ recordType: "url", data: $("link").textContent }] });
+      toast("Tag written. Tap it to test.");
+    } catch (e) {
+      toast("Couldn't write. If the tag has a password, remove it first.");
+    }
+  });
+}
+
+update();
+</script>
+</body>
+</html>

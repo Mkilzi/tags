@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Get Milzi Tags</title>
+<style>
+  :root { --ink:#141414; --paper:#F6F1E7; --card:#FFFDF8; --orange:#F26B1D; --muted:#6B665E; --line:#E3DCCF; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width:460px; margin:0 auto; padding:36px 16px 48px; text-align:center; }
+  .brand { font-size:12px; letter-spacing:.18em; font-weight:800; color:var(--muted); }
+  .brand b { color:var(--orange); }
+  .icon { width:92px; height:92px; border-radius:22px; background:var(--ink); margin:22px auto 0; display:flex; align-items:center; justify-content:center; }
+  h1 { font-size:30px; margin:18px 0 6px; }
+  p { color:var(--muted); margin:0 0 22px; }
+  .btn { display:block; text-decoration:none; font-weight:700; font-size:17px; border-radius:14px; padding:17px; margin-top:10px; }
+  .orange { background:var(--orange); color:#fff; }
+  .dark { background:var(--ink); color:#fff; }
+  .ghost { border:1.5px solid var(--ink); color:var(--ink); }
+  .steps { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:26px; }
+  .steps ol { margin:6px 0 0; padding-left:20px; }
+  .steps li { margin-bottom:6px; }
+  .hidden { display:none; }
+  .note { font-size:13px; color:var(--muted); margin-top:16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">MIND OF <b>MILZI</b></div>
+  <div class="icon">
+    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke-linecap="round">
+      <path d="M33 74 A30 30 0 1 1 67 74" stroke="#F6F1E7" stroke-width="6"/>
+      <path d="M41 82h18M41 90h18" stroke="#F6F1E7" stroke-width="6"/>
+      <path d="M36 58V30l14 15 14-15v28" stroke="#F26B1D" stroke-width="6" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h1>Set up your tag</h1>
+  <p>Get the free app, add your kids or pets, and tap the tag. No account needed.</p>
+
+  <a id="ios" class="btn dark hidden" href="#">Download on the App Store</a>
+  <a id="android" class="btn dark hidden" href="#">Get it on Google Play</a>
+  <div id="soon" class="hidden"><p style="margin:0 0 6px">The app is coming soon.</p></div>
+  <a class="btn ghost" href="setup.html">Set up in my browser instead</a>
+
+  <div class="steps">
+    <b>How it works</b>
+    <ol>
+      <li>Open the app and tap <b>Add a child</b> or <b>Add a pet</b>.</li>
+      <li>Add their name, your contacts, and any medical notes.</li>
+      <li>Pick a 4-digit PIN so only you can change it.</li>
+      <li>Hold your phone to the tag. Done. Add a profile for each kid or pet.</li>
+    </ol>
+  </div>
+  <div class="note">Your info stays on your tag and your phone. We never see it.</div>
+</div>
+
+<script>
+// ===== Paste your store links here once the app is live =====
+const APP_STORE_URL = "";   // e.g. https://apps.apple.com/app/id1234567890
+const PLAY_STORE_URL = "";  // e.g. https://play.google.com/store/apps/details?id=com.mindofmilzi.tags
+
+const ua = navigator.userAgent || "";
+const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = /Android/.test(ua);
+const ios = document.getElementById("ios"), android = document.getElementById("android");
+if (APP_STORE_URL) ios.href = APP_STORE_URL;
+if (PLAY_STORE_URL) android.href = PLAY_STORE_URL;
+
+if (isIOS && APP_STORE_URL) location.replace(APP_STORE_URL);
+else if (isAndroid && PLAY_STORE_URL) location.replace(PLAY_STORE_URL);
+
+// If we didn't redirect, show whatever links exist
+if (APP_STORE_URL && !isAndroid) ios.classList.remove("hidden");
+if (PLAY_STORE_URL && !isIOS) android.classList.remove("hidden");
+if ((isIOS && !APP_STORE_URL) || (isAndroid && !PLAY_STORE_URL) || (!APP_STORE_URL && !PLAY_STORE_URL)) {
+  document.getElementById("soon").classList.remove("hidden");
+}
+</script>
+</body>
+</html>
